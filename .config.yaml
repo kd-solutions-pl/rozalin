@@ -1,0 +1,28 @@
+header:
+  version: 21
+
+machine: imx93frdm
+distro: rozalin
+target:
+  - rozalin-image
+
+repos:
+  bitbake:
+    url: "https://git.openembedded.org/bitbake"
+    branch: "2.18"
+    layers:
+      .: disabled
+
+  openembedded-core:
+    url: "https://git.openembedded.org/openembedded-core"
+    branch: "wrynose"
+    layers:
+      meta:
+
+  meta-arm:
+    url: "git://git.yoctoproject.org/meta-arm"
+    branch: "master"
+    commit: "8eb10af8092dc3fff86891339fd024d8583f457f"
+    layers:
+      meta-arm-toolchain:
+      meta-arm:

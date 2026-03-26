@@ -26,3 +26,7 @@ repos:
     layers:
       meta-arm-toolchain:
       meta-arm:
+
+  meta-rozalin:
+    layers:
+      meta-rozalin:

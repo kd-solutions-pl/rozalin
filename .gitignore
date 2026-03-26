@@ -1,0 +1,4 @@
+bitbake
+build
+openembedded-core
+meta-arm

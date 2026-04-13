@@ -7,8 +7,13 @@ SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
 SRCREV = "88dc2788777babfd6322fa655df549a019aa1e69"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=2ca5f2c35c8cc335f0a19756634782f1"
 
+SRC_URI:append:imx93frdm = " \
+    file://0001-imx93-Add-support-for-OPTEE.patch \
+    file://optee.cfg \
+    "
+
 # We will embed boot firmwares, in the generated binary: we do depend on them.
-DEPENDS:append:imx93frdm = " trusted-firmware-a imx-boot-firmware-files firmware-ele-imx"
+DEPENDS:append:imx93frdm = " optee-os trusted-firmware-a imx-boot-firmware-files firmware-ele-imx"
 
 EXTRA_OEMAKE:append:imx93frdm = " BINMAN_INDIRS=${RECIPE_SYSROOT}/firmware"
 
@@ -22,6 +27,7 @@ do_configure:append:imx93frdm() {
      fi
      cp ${RECIPE_SYSROOT}/firmware/trusted-firmware-a/bl31.bin ${B}/${config}
      cp ${RECIPE_SYSROOT}/${nonarch_base_libdir}/firmware/imx/ele/${SECO_FIRMWARE_NAME} ${B}/${config}
+     cp ${RECIPE_SYSROOT}/${nonarch_base_libdir}/firmware/tee-raw.bin ${B}/${config}/tee.bin
 }
 
 do_deploy:append:imx93frdm() {

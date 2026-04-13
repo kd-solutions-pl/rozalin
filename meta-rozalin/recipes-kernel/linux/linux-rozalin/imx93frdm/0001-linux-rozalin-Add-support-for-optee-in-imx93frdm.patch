@@ -1,0 +1,36 @@
+From 79e247c171b630694af4c79d3d714c37dfbc5c61 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Krzysztof=20Drobi=C5=84ski?= <krzysztof@kd-solutions.pl>
+Date: Mon, 13 Apr 2026 15:39:19 +0200
+Subject: [PATCH] linux-rozalin: Add support for optee in imx93frdm
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Pending
+
+Signed-off-by: Krzysztof Drobiński <krzysztof@kd-solutions.pl>
+---
+ arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts b/arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts
+index bd14ba28690c..b31838676aa7 100644
+--- a/arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts
++++ b/arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts
+@@ -26,6 +26,13 @@ chosen {
+ 		stdout-path = &lpuart1;
+ 	};
+ 
++	firmware {
++		optee {
++			compatible = "linaro,optee-tz";
++			method = "smc";
++		};
++	};
++
+ 	flexcan2_phy: can-phy {
+ 		compatible = "nxp,tja1051";
+ 		#phy-cells = <0>;
+-- 
+2.51.0
+

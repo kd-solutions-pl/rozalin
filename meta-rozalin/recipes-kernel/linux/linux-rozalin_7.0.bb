@@ -7,3 +7,7 @@ SRC_URI[sha256sum] = "bb7f6d80b387c757b7d14bb93028fcb90f793c5c0d367736ee815a100b
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 S = "${UNPACKDIR}/linux-${PV}"
+
+SRC_URI:append:imx93frdm = " \
+    file://0001-linux-rozalin-Add-support-for-optee-in-imx93frdm.patch \
+    "

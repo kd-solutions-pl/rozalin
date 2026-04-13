@@ -17,7 +17,6 @@ DEPENDS:append:imx93frdm = " optee-os trusted-firmware-a imx-boot-firmware-files
 
 EXTRA_OEMAKE:append:imx93frdm = " BINMAN_INDIRS=${RECIPE_SYSROOT}/firmware"
 
-SECO_FIRMWARE_NAME = "mx93a1-ahab-container.img"
 do_configure:append:imx93frdm() {
     # Copy ele firmware binaries in build directory, so they can be found by mkiage
      config="${@ d.getVar('UBOOT_MACHINE').strip()}"

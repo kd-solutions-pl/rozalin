@@ -24,7 +24,6 @@ python do_unpack:append() {
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
 
-SECO_FIRMWARE_NAME = "mx93a1-ahab-container.img"
 do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/imx/ele
     install -m 0644 ${S}/${SECO_FIRMWARE_NAME} ${D}${nonarch_base_libdir}/firmware/imx/ele

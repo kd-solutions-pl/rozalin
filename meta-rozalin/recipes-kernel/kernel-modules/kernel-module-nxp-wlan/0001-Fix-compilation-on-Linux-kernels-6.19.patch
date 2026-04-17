@@ -1,0 +1,88 @@
+From 3fa955c293c059bff98319b056634213e160b89c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Krzysztof=20Drobi=C5=84ski?= <krzysztof@kd-solutions.pl>
+Date: Fri, 17 Apr 2026 14:28:36 +0200
+Subject: [PATCH] Fix compilation on Linux kernels 6.19+
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Pending
+Signed-off-by: Krzysztof Drobiński <krzysztof@kd-solutions.pl>
+---
+ mlinux/moal_eth_ioctl.c | 4 +++-
+ mlinux/moal_shim.c      | 3 ++-
+ mlinux/moal_uap_wext.c  | 4 +++-
+ mlinux/moal_wext.c      | 6 ++++--
+ 4 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/mlinux/moal_eth_ioctl.c b/mlinux/moal_eth_ioctl.c
+index f093c86..5755f2e 100644
+--- a/mlinux/moal_eth_ioctl.c
++++ b/mlinux/moal_eth_ioctl.c
+@@ -6966,7 +6966,9 @@ static int woal_priv_get_ap(moal_private *priv, t_u8 *respbuf, t_u32 respbuflen)
+ 	if (bss_info.media_connected == MTRUE) {
+ 		moal_memcpy_ext(priv->phandle, mwr->u.ap_addr.sa_data,
+ 				&bss_info.bssid, MLAN_MAC_ADDR_LENGTH,
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 80)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 80) && \
++    LINUX_VERSION_CODE < KERNEL_VERSION(6, 19, 0)
++
+ 				sizeof(mwr->u.ap_addr.sa_data_min));
+ #else
+ 				sizeof(mwr->u.ap_addr.sa_data));
+diff --git a/mlinux/moal_shim.c b/mlinux/moal_shim.c
+index 7aebbdf..823123d 100644
+--- a/mlinux/moal_shim.c
++++ b/mlinux/moal_shim.c
+@@ -3783,7 +3783,8 @@ mlan_status moal_recv_event(t_void *pmoal, pmlan_event pmevent)
+ 			memset(wrqu.ap_addr.sa_data, 0x00, ETH_ALEN);
+ 			moal_memcpy_ext(priv->phandle, wrqu.ap_addr.sa_data,
+ 					pmevent->event_buf, ETH_ALEN,
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 80)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 80) && \
++    LINUX_VERSION_CODE < KERNEL_VERSION(6, 19, 0)
+ 					sizeof(wrqu.ap_addr.sa_data_min));
+ #else
+ 					sizeof(wrqu.ap_addr.sa_data));
+diff --git a/mlinux/moal_uap_wext.c b/mlinux/moal_uap_wext.c
+index f4b6347..2a44794 100644
+--- a/mlinux/moal_uap_wext.c
++++ b/mlinux/moal_uap_wext.c
+@@ -243,7 +243,9 @@ static int woal_get_wap(struct net_device *dev, struct iw_request_info *info,
+ 	if (priv->bss_started)
+ 		moal_memcpy_ext(priv->phandle, awrq->sa_data,
+ 				priv->current_addr, MLAN_MAC_ADDR_LENGTH,
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 80)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 80) && \
++    LINUX_VERSION_CODE < KERNEL_VERSION(6, 19, 0)
++
+ 				sizeof(awrq->sa_data_min));
+ #else
+ 				sizeof(awrq->sa_data));
+diff --git a/mlinux/moal_wext.c b/mlinux/moal_wext.c
+index 953c60b..c54843b 100644
+--- a/mlinux/moal_wext.c
++++ b/mlinux/moal_wext.c
+@@ -588,7 +588,8 @@ static int woal_get_wap(struct net_device *dev, struct iw_request_info *info,
+ 
+ 	if (bss_info.media_connected == MTRUE)
+ 		moal_memcpy_ext(priv->phandle, awrq->sa_data, &bss_info.bssid,
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 80)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 80) && \
++    LINUX_VERSION_CODE < KERNEL_VERSION(6, 19, 0))
+ 				MLAN_MAC_ADDR_LENGTH,
+ 				sizeof(awrq->sa_data_min));
+ #else
+@@ -3072,7 +3073,8 @@ static int woal_get_scan(struct net_device *dev, struct iw_request_info *info,
+ 		iwe.u.ap_addr.sa_family = ARPHRD_ETHER;
+ 		moal_memcpy_ext(priv->phandle, iwe.u.ap_addr.sa_data,
+ 				&scan_table[i].mac_address, ETH_ALEN,
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 80)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 80) && \
++    LINUX_VERSION_CODE < KERNEL_VERSION(6, 19, 0)
+ 				sizeof(iwe.u.ap_addr.sa_data_min));
+ #else
+ 				sizeof(iwe.u.ap_addr.sa_data));
+-- 
+2.51.0
+

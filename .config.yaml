@@ -21,8 +21,7 @@ repos:
 
   meta-arm:
     url: "git://git.yoctoproject.org/meta-arm"
-    branch: "master"
-    commit: "8eb10af8092dc3fff86891339fd024d8583f457f"
+    branch: "wrynose"
     layers:
       meta-arm-toolchain:
       meta-arm:

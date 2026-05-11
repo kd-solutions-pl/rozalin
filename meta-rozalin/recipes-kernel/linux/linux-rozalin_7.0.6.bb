@@ -3,7 +3,7 @@ LICENSE = "GPL-2.0-only"
 inherit kernel
 
 SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/v7.x/linux-${PV}.tar.xz"
-SRC_URI[sha256sum] = "b2c935a36d24980e11e59bed3ca558ea6d67619ec0065faa335cdc0b64d887bf"
+SRC_URI[sha256sum] = "cba44440aa57affd7c21241dc5bc234b0df53c499f8ffc3ebc290dd3390a7523"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 S = "${UNPACKDIR}/linux-${PV}"

@@ -12,7 +12,7 @@ SRC_URI = " \
     file://hostapd.service \
     file://hostapd.conf \
 "
-SRCREV = "80b280f74255a6269645462dde12b9bbd34927c1"
+SRCREV = "a034719032e92e65a18e28175e009d2598bae453"
 inherit systemd pkgconfig features_check
 
 CONFLICT_DISTRO_FEATURES = "openssl-no-weak-ciphers"

@@ -7,12 +7,12 @@ LIC_FILES_CHKSUM = "file://hostapd/README;beginline=5;endline=47;md5=8e2c69e491b
 DEPENDS = "libnl openssl"
 
 SRC_URI = " \
-    git://git.w1.fi/hostap.git;protocol=https;branch=main \
+    git://git.w1.fi/hostap.git;protocol=https;branch=2_12 \
     file://defconfig \
     file://hostapd.service \
     file://hostapd.conf \
 "
-SRCREV = "a034719032e92e65a18e28175e009d2598bae453"
+SRCREV = "0215f33968d964029d74f22058f9e2ea66ff50cc"
 inherit systemd pkgconfig features_check
 
 CONFLICT_DISTRO_FEATURES = "openssl-no-weak-ciphers"

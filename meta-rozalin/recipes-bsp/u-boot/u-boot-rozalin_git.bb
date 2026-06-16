@@ -2,9 +2,9 @@ require recipes-bsp/u-boot/u-boot-common.inc
 require recipes-bsp/u-boot/u-boot.inc
 
 DEPENDS += "gnutls-native"
-# v2026.04
+# v2026.07
 SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
-SRCREV = "88dc2788777babfd6322fa655df549a019aa1e69"
+SRCREV = "ece349ade2973e220f524ce59e59711cc919263f"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=2ca5f2c35c8cc335f0a19756634782f1"
 
 SRC_URI:append:imx93frdm = " \

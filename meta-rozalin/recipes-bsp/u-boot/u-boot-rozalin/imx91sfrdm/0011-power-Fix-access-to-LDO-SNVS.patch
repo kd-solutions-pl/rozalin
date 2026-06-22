@@ -1,0 +1,30 @@
+From 68f759284c6567293ea038989d48e34563368997 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Krzysztof=20Drobi=C5=84ski?= <krzysztof@kd-solutions.pl>
+Date: Fri, 26 Jun 2026 12:17:32 +0200
+Subject: [PATCH 11/11] power: Fix access to LDO SNVS
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Pending
+Signed-off-by: Krzysztof Drobiński <krzysztof@kd-solutions.pl>
+---
+ drivers/power/regulator/pf9453.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/power/regulator/pf9453.c b/drivers/power/regulator/pf9453.c
+index d11c69c33e6..e1766737e52 100644
+--- a/drivers/power/regulator/pf9453.c
++++ b/drivers/power/regulator/pf9453.c
+@@ -102,7 +102,7 @@ static struct pf9453_plat pf9453_reg_data[] = {
+ 	PCA_DATA("LDO2", PF9453_LDO2CFG, PF9453_EN_MODE_MASK,
+ 		 PF9453_LDO2OUT, PF9453_LDO2_MASK,
+ 		 pf9453_ldo2_vranges),
+-	PCA_DATA("LDOS_NVS", PF9453_LDOSNVS_CFG2, PF9453_EN_MODE_MASK,
++	PCA_DATA("LDO-SNVS", PF9453_LDOSNVS_CFG2, PF9453_EN_MODE_MASK,
+ 		 PF9453_LDOSNVS_CFG1, PF9453_LDOSNVS_MASK,
+ 		 pf9453_ldosnvs_vranges),
+ };
+-- 
+2.53.0
+

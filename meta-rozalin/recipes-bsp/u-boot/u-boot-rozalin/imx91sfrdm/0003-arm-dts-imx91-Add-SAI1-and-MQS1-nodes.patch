@@ -1,0 +1,52 @@
+From 4daab1337907219c81ccf4da217d3c0762a2f912 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Krzysztof=20Drobi=C5=84ski?= <krzysztof@kd-solutions.pl>
+Date: Fri, 19 Jun 2026 12:59:06 +0200
+Subject: [PATCH 03/11] arm: dts: imx91: Add SAI1 and MQS1 nodes
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+So we could use upstream dts
+
+Upstream-Status: Pending
+Signed-off-by: Krzysztof Drobiński <krzysztof@kd-solutions.pl>
+---
+ arch/arm/dts/imx91.dtsi | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/arch/arm/dts/imx91.dtsi b/arch/arm/dts/imx91.dtsi
+index 9963f0bb5ce..f679dc7a719 100644
+--- a/arch/arm/dts/imx91.dtsi
++++ b/arch/arm/dts/imx91.dtsi
+@@ -11,6 +11,28 @@
+ /delete-node/ &mu1;
+ /delete-node/ &mu2;
+ 
++/ {
++	mqs1: mqs1 {
++		compatible = "fsl,imx93-mqs";
++		gpr = <&anomix_ns_gpr>;
++		status = "disabled";
++	};
++};
++
++&aips1 {
++	sai1: sai@443b0000 {
++		compatible = "fsl,imx93-sai";
++		reg = <0x443b0000 0x10000>;
++		interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&clk IMX93_CLK_SAI1_IPG>, <&clk IMX93_CLK_DUMMY>,
++			 <&clk IMX93_CLK_SAI1_GATE>, <&clk IMX93_CLK_DUMMY>,
++			 <&clk IMX93_CLK_DUMMY>;
++		clock-names = "bus", "mclk0", "mclk1", "mclk2", "mclk3";
++		#sound-dai-cells = <0>;
++		status = "disabled";
++	};
++};
++
+ &clk {
+ 	compatible = "fsl,imx91-ccm";
+ };
+-- 
+2.53.0
+

@@ -31,4 +31,4 @@ do_install() {
 
 FILES:${PN} += "${nonarch_base_libdir}/firmware/imx/ele/${SECO_FIRMWARE_NAME}"
 
-COMPATIBLE_MACHINE = "^imx93frdm$"
+COMPATIBLE_MACHINE = "(^imx93frdm$|^imx91sfrdm$)"

@@ -25,7 +25,7 @@ python do_unpack:append() {
     bb.process.run(cmd, shell=True, cwd=d.getVar('UNPACKDIR', True))
 }
 
-DDR_FIRMWARE_NAME:imx93frdm = " \
+DDR_FIRMWARE_NAME = " \
     lpddr4_dmem_1d_v202201.bin \
     lpddr4_dmem_2d_v202201.bin \
     lpddr4_imem_1d_v202201.bin \
@@ -49,4 +49,4 @@ do_install () {
 
 SYSROOT_DIRS += "/firmware"
 
-COMPATIBLE_MACHINE = "^(imx93frdm)$"
+COMPATIBLE_MACHINE = "(^imx93frdm$|^imx91sfrdm$)"

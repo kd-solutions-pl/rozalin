@@ -27,6 +27,7 @@ do_install() {
 
 PACKAGES =+ " \
     ${PN}-nxpiw612-sdio \
+    ${PN}-nxpiw610-sdio \
 "
 
 FILES:${PN}-nxpiw612-sdio = " \
@@ -37,6 +38,14 @@ FILES:${PN}-nxpiw612-sdio = " \
     ${nonarch_base_libdir}/firmware/nxp/IW612_SD_RFTest/ \
     ${nonarch_base_libdir}/firmware/nxp/wifi_mod_para.conf \
     ${nonarch_base_libdir}/firmware/nxp/helper_uart_3000000.bin \
+"
+
+FILES:${PN}-nxpiw610-sdio = " \
+    ${nonarch_base_libdir}/firmware/nxp/sd_iw610.bin.se \
+    ${nonarch_base_libdir}/firmware/nxp/sduart_iw610.bin.se \
+    ${nonarch_base_libdir}/firmware/nxp/sduartspi_iw610.bin.se \
+    ${nonarch_base_libdir}/firmware/nxp/uart_iw610_bt.bin.se \
+    ${nonarch_base_libdir}/firmware/nxp/uartspi_iw610.bin.se \
 "
 
 FILES:${PN} = "${nonarch_base_libdir}/firmware/nxp/*"

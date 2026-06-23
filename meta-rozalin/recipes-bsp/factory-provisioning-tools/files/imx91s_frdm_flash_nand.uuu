@@ -1,0 +1,24 @@
+uuu_version 1.4.193
+
+SDPS: boot -f flash.bin
+FB: ucmd setenv fastboot_buffer 0x82800000
+FB: download -f flash.bin
+FB: ucmd setenv fastboot_bytes $filesize
+FB: ucmd printenv fastboot_buffer fastboot_bytes filesize loadaddr
+FB[-t 60000]: ucmd mtd erase spi-nand0
+FB[-t 60000]: ucmd fspinand init spi-nand0 $fastboot_buffer $fastboot_bytes
+FB: download -f Image
+FB: ucmd setenv fastboot_bytes $filesize
+FB[-t 60000]: ucmd mtd erase kernel
+FB[-t 60000]: ucmd mtd write kernel $fastboot_buffer 0 $fastboot_bytes
+FB: download -f imx91-11x11-frdm-s.dtb
+FB: ucmd setenv fastboot_bytes $filesize
+FB[-t 60000]: ucmd mtd erase dtb
+FB[-t 60000]: ucmd mtd write dtb $fastboot_buffer 0 $fastboot_bytes
+FB: download -f rozalin-image-imx91sfrdm.rootfs.ubifs
+FB: ucmd setenv fastboot_bytes $filesize
+FB[-t 60000]: ucmd mtd erase rootfs
+FB[-t 60000]: ucmd ubi part rootfs
+FB[-t 60000]: ucmd ubi create rootfs
+FB[-t 60000]: ucmd ubi write $fastboot_buffer rootfs $fastboot_bytes
+FB: done

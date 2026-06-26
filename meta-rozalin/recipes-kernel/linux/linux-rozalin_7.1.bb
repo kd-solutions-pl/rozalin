@@ -12,5 +12,6 @@ SRC_URI:append:imx93frdm = " \
     file://0001-linux-rozalin-Add-support-for-optee-in-imx93frdm.patch \
     "
 SRC_URI:append:imx91sfrdm = " \
+    file://defconfig \
     file://0001-linux-rozalin-Add-support-for-optee-in-imx91s-frdm.patch \
     "

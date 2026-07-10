@@ -18,6 +18,12 @@ I started work inspired by [Bootlin implementation](https://github.com/bootlin/s
     $ pip3 install kas
 ```
 
+Install UUU from your distribution packages or from the [NXP mfgtools](https://github.com/nxp-imx/mfgtools) project
+if you want to flash boards over USB serial download mode. On ubuntu-26.04 run
+```Bash
+    $ sudo apt install uuu
+```
+
 ## Fetch
 ```Bash
     $ git clone https://github.com/kd-solutions-pl/rozalin.git
@@ -31,6 +37,8 @@ I started work inspired by [Bootlin implementation](https://github.com/bootlin/s
     $ echo 'LICENSE_FLAGS_ACCEPTED += "NXP_EULA_v62 NXP_EULA_v63"' >> conf/site.conf
     $ echo 'MACHINE = "imx93frdm"' >> conf/site.conf
 ```
+
+Use `MACHINE = "imx91sfrdm"` instead when building for the i.MX91S FRDM board.
 
 For development purposes add following
 
@@ -48,10 +56,25 @@ but keep in mind that above settings are not recommended for production environm
 
 ## Flash
 
+### imx93frdm MMC card
+
 Program MMC card
 
 ```Bash
     $ bmaptool copy tmp/deploy/images/imx93frdm/rozalin-image-imx93frdm.rootfs.wic <your MMC device>
+```
+
+### imx91sfrdm SPI-NAND using UUU
+
+Build the image with `MACHINE = "imx91sfrdm"`. The build deploys the UUU script
+and all files referenced by it into `tmp/deploy/images/imx91sfrdm/`.
+
+Put the board into USB serial download mode, connect the USB download port to
+the host, and run UUU from the deploy directory:
+
+```Bash
+    $ cd tmp/deploy/images/imx91sfrdm
+    $ uuu -V imx91s_frdm_flash_nand.uuu
 ```
 
 ## Example of runtime configuration

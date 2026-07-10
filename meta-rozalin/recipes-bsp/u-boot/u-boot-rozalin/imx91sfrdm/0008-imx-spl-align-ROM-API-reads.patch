@@ -1,0 +1,94 @@
+From fba9849a8c75ca391b5c1e783a995df3e15b4e33 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Krzysztof=20Drobi=C5=84ski?= <krzysztof@kd-solutions.pl>
+Date: Sat, 20 Jun 2026 23:51:08 +0200
+Subject: [PATCH 08/11] imx: spl: align ROM API reads
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The ROM API requires downloads to be aligned to the boot media page size.
+Higher-level image loaders may request smaller or unaligned chunks while
+parsing FIT or container images, so pass an aligned transfer to the ROM
+and copy the requested window back to the caller.
+
+Without this, NAND boot on the i.MX91S FRDM board failed while probing
+the image header:
+
+    Can't support legacy image
+
+    Error: -1
+
+    SPL: Unsupported Boot Device!
+
+    SPL: failed to boot from all boot devices
+
+    ### ERROR ### Please RESET the board ###
+
+Upstream-Status: Pending
+Signed-off-by: Krzysztof Drobiński <krzysztof@kd-solutions.pl>
+---
+ arch/arm/mach-imx/spl_imx_romapi.c | 35 ++++++++++++++++++++++++++++--
+ 1 file changed, 33 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/mach-imx/spl_imx_romapi.c b/arch/arm/mach-imx/spl_imx_romapi.c
+index d36536e600e..df3db25b7d8 100644
+--- a/arch/arm/mach-imx/spl_imx_romapi.c
++++ b/arch/arm/mach-imx/spl_imx_romapi.c
+@@ -7,6 +7,7 @@
+ #include <image.h>
+ #include <imx_container.h>
+ #include <log.h>
++#include <malloc.h>
+ #include <linux/libfdt.h>
+ #include <spl.h>
+ #include <asm/arch/sys_proto.h>
+@@ -14,14 +15,44 @@
+ /* Caller need ensure the offset and size to align with page size */
+ ulong spl_romapi_raw_seekable_read(u32 offset, u32 size, void *buf)
+ {
++	u32 aligned_offset, aligned_size, page_size, delta;
++	u8 *tmp;
+ 	int ret;
+ 
+ 	debug("%s 0x%x, size 0x%x\n", __func__, offset, size);
+ 
+-	ret = rom_api_download_image(buf, offset, size);
++	ret = rom_api_query_boot_infor(QUERY_PAGE_SZ, &page_size);
++	if (ret != ROM_API_OKAY || !page_size)
++		page_size = CONTAINER_HDR_ALIGNMENT;
+ 
+-	if (ret == ROM_API_OKAY)
++	aligned_offset = rounddown(offset, page_size);
++	delta = offset - aligned_offset;
++	aligned_size = ALIGN(size + delta, page_size);
++
++	if (aligned_offset == offset && aligned_size == size) {
++		ret = rom_api_download_image(buf, offset, size);
++		if (ret == ROM_API_OKAY)
++			return size;
++
++		printf("%s Failure when load 0x%x, size 0x%x\n",
++		       __func__, offset, size);
++		return 0;
++	}
++
++	tmp = malloc(aligned_size);
++	if (!tmp) {
++		printf("%s malloc failed size 0x%x\n", __func__, aligned_size);
++		return 0;
++	}
++
++	ret = rom_api_download_image(tmp, aligned_offset, aligned_size);
++	if (ret == ROM_API_OKAY) {
++		memcpy(buf, tmp + delta, size);
++		free(tmp);
+ 		return size;
++	}
++
++	free(tmp);
+ 
+ 	printf("%s Failure when load 0x%x, size 0x%x\n", __func__, offset, size);
+ 
+-- 
+2.53.0
+

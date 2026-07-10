@@ -1,0 +1,48 @@
+From 3ff10789af09fb9c2534e7ba69b305df47442f16 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Krzysztof=20Drobi=C5=84ski?= <krzysztof@kd-solutions.pl>
+Date: Sat, 20 Jun 2026 15:00:40 +0200
+Subject: [PATCH 06/11] imx9: Introduce CONFIG_IMX9_NAND_2K_BOOT option
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Pending
+Signed-off-by: Krzysztof Drobiński <krzysztof@kd-solutions.pl>
+---
+ arch/arm/mach-imx/imx9/Kconfig | 7 +++++++
+ tools/imx8image.c              | 1 +
+ 2 files changed, 8 insertions(+)
+
+diff --git a/arch/arm/mach-imx/imx9/Kconfig b/arch/arm/mach-imx/imx9/Kconfig
+index f072e6a9e3d..4fe667641e7 100644
+--- a/arch/arm/mach-imx/imx9/Kconfig
++++ b/arch/arm/mach-imx/imx9/Kconfig
+@@ -15,6 +15,13 @@ config IMX9
+ 	select ROM_UNIFIED_SECTIONS
+ 	imply IMX_TMU
+ 
++config IMX9_NAND_2K_BOOT
++	bool "Generate i.MX9 boot containers for 2K NAND"
++	depends on IMX9
++	help
++	  Select this option when the i.MX9 boot image should be generated
++	  for a NAND device with 2 KiB pages.
++
+ config IMX93
+ 	bool
+ 	select IMX9
+diff --git a/tools/imx8image.c b/tools/imx8image.c
+index bb1b8667971..9dc1cff377c 100644
+--- a/tools/imx8image.c
++++ b/tools/imx8image.c
+@@ -81,6 +81,7 @@ static table_entry_t imx8image_sector_size[] = {
+ 	{0x400,		"sd",			"sd/emmc",},
+ 	{0x400,		"emmc_fastboot",	"emmc fastboot",},
+ 	{0x1000,	"fspi",			"flexspi",	},
++	{0x800,	        "nand_2k",		"nand 2K",	},
+ 	{0x1000,	"nand_4k",		"nand 4K",	},
+ 	{0x2000,	"nand_8k",		"nand 8K",	},
+ 	{0x4000,	"nand_16k",		"nand 16K",	},
+-- 
+2.53.0
+

@@ -1,0 +1,50 @@
+From d17f39e7375aba47166fafa3ae1a03f6b890b6e3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Krzysztof=20Drobi=C5=84ski?= <krzysztof@kd-solutions.pl>
+Date: Sat, 20 Jun 2026 23:36:20 +0200
+Subject: [PATCH 07/11] imx9: Add support for booting from 2k NAND flash
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Upstream-Status: Pending
+Signed-off-by: Krzysztof Drobiński <krzysztof@kd-solutions.pl>
+---
+ arch/arm/mach-imx/imx9/container.cfg | 4 ++++
+ arch/arm/mach-imx/imx9/imximage.cfg  | 4 ++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/arch/arm/mach-imx/imx9/container.cfg b/arch/arm/mach-imx/imx9/container.cfg
+index a018c365c82..5f0995ad6ef 100644
+--- a/arch/arm/mach-imx/imx9/container.cfg
++++ b/arch/arm/mach-imx/imx9/container.cfg
+@@ -3,7 +3,11 @@
+  * Copyright 2023 Mathieu Othacehe <m.othacehe@gmail.com>
+  */
+ 
++#ifdef CONFIG_IMX9_NAND_2K_BOOT
++BOOT_FROM nand_2k
++#else
+ BOOT_FROM SD 0x400
++#endif
+ SOC_TYPE IMX9
+ CONTAINER
+ #ifdef CONFIG_IMX91
+diff --git a/arch/arm/mach-imx/imx9/imximage.cfg b/arch/arm/mach-imx/imx9/imximage.cfg
+index 118dfb3ec79..89ae608e0c6 100644
+--- a/arch/arm/mach-imx/imx9/imximage.cfg
++++ b/arch/arm/mach-imx/imx9/imximage.cfg
+@@ -3,7 +3,11 @@
+  * Copyright 2023 Mathieu Othacehe <m.othacehe@gmail.com>
+  */
+ 
++#ifdef CONFIG_IMX9_NAND_2K_BOOT
++BOOT_FROM nand_2k
++#else
+ BOOT_FROM SD 0x400
++#endif
+ SOC_TYPE IMX9
+ #ifdef CONFIG_IMX91
+ APPEND mx91a0-ahab-container.img
+-- 
+2.53.0
+
